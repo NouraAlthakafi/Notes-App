@@ -22,7 +22,7 @@ class RVnotes(var notesArray: ArrayList <String>): RecyclerView.Adapter<RVnotes.
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val aNote = notesArray[position]
         holder.itemView.apply{
-            etNote.text = aNote
+            tvNote.text = aNote
         }
     }
 

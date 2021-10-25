@@ -1,7 +1,9 @@
 package com.example.notesapp
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -18,5 +20,12 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, "details.db", null, 
         cv.put("Note", aS)
         var status = sqLiteDatabase.insert("notes", null, cv)
         return status
+    }
+    @SuppressLint("Range")
+    fun retrieve(aS: String): String{
+        var c : Cursor = sqLiteDatabase.query("notes", null, "Note=?", arrayOf(aS), null, null, null)
+        c.moveToFirst()
+        var notes1All = c.getString(c.getColumnIndex("Note"))
+        return notes1All
     }
 }
