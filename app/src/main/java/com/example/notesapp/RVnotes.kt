@@ -1,30 +1,32 @@
 package com.example.notesapp
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_note.view.*
+import com.example.notesapp.databinding.ItemNoteBinding
 
-class RVnotes(var notesArray: ArrayList <String>): RecyclerView.Adapter<RVnotes.ItemViewHolder>(){
-    class ItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+class RVnotes(val activity: MainActivity, var notesArray: ArrayList<String>) : RecyclerView.Adapter<RVnotes.ViewHolder>() {
+    class ViewHolder(val binding: ItemNoteBinding): RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_note,
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val aNote = notesArray[position]
-        holder.itemView.apply{
+        holder.binding.apply {
             tvNote.text = aNote
+            ibEdit.setOnClickListener {
+                activity.alertUbdate(aNote)
+            }
+            ibDelete.setOnClickListener{
+                activity.delete(aNote)
+            }
         }
     }
 
-    override fun getItemCount() = notesArray.size
+    override fun getItemCount(): Int {
+        return notesArray.size
+    }
+
 }
